@@ -28,6 +28,15 @@ en la carpeta ecs con jenkins vas a poder encontrar un docker de jenkins y un pi
 ### ecs con terraform
 en esta carpeta vas a poder encontrar ejemplos de terraform para crear cluster y servicios
 
+
+
+# Articulos de aws ecs:
+[Conceptos de AWS ECS para principiantes](https://culturadevops.blogspot.com/2022/09/tutorial-2023-aws-ecs-para.html)
+
+[Cosas importantes de AWS ECS](https://culturadevops.blogspot.com/2022/10/cosas-importantes-que-debes-saber-antes.html)
+
+
+
 # Mis Libros:
 
 [![libros futuro es devops ](https://github.com/culturadevops/ecs_para_principiantes/blob/master/recursos/futuroesdevopsjaivicvillegas.png)](https://amzn.to/3S8AGG9) [![libros herramientas devops](https://github.com/culturadevops/ecs_para_principiantes/blob/master/recursos/herramientasdevops.png)](https://amzn.to/3ga1c4E)
