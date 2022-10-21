@@ -8,16 +8,15 @@
 En el repo podras encontrar codigo de aws cli para crear roles task definition y servicios de ecs
 tambien codigo de terraform y jenkins esta todo separado por carpetas y en el video de ejercicio podras ver toda la explicacion 
 
-indice
-
-primera parte
-    crear los task y los servicios en la consola
-segunda parte
-    usar el makefile para crear todo
-tecera parte 
-    usar jenkins
+Indice:
+Primera parte
+    Crear los task y los servicios en la consola manualmente.
+Segunda parte
+    Usar AWS CLI  para crear task definition y servicios y roles y permisos de forma manual. 
+Tecera parte 
+    Usar jenkins para crear task definition y servicios y roles y permisos de forma automatica. 
 cuarta parte 
-    usar codepipeline
+    usar codepipeline para crear task definition y servicios y roles y permisos de forma automatica. 
 
 
 
