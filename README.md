@@ -17,9 +17,16 @@ cuarta parte
 
 # Contenido de los archivos
 ### ecs con aws cli
-en la carpeta ecs con aws cli vas a poder encontrar un archivo makefile con los comandos para crear de forma facil un task definition y servicio y los roles necesarios ve el video para que entiendas como usarlo
+En la carpeta ecs con aws cli vas a poder encontrar un archivo makefile con los comandos para crear de forma facil un task definition y servicio y los roles necesarios ve el video para que entiendas como usarlo
 
 ### ecs con codepipeline
+En la carpeta ecs con codepipeline tendras todos los archivo de terraform para crear un pipeline para lanzar un task definition y un servicios
+
+### ecs con jenkins
+en la carpeta ecs con jenkins vas a poder encontrar un docker de jenkins y un pipeline de jenkins par lanzar un task definition y servicios
+
+### ecs con terraform
+en esta carpeta vas a poder encontrar ejemplos de terraform para crear cluster y servicios
 
 # Mis Libros:
 
