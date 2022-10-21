@@ -1,0 +1,77 @@
+import groovy.json.JsonSlurperClassic
+@NonCPS
+def jsonParse(def json) {
+    new groovy.json.JsonSlurperClassic().parseText(json)
+}
+pipeline {
+  agent { label 'master' }
+  environment {
+    APPNAME = "laravel_lms"
+    IMAGE_NAME = 'laravel_lms'
+    AWS_REGION = 'us-east-1'
+    AWS_ACCOUNT = '561607169148'
+    CLUSTER_NAME = "ec2spot"
+    SERVICE_NAME = "weblms"
+    IMAGE_PORT= "80"
+    COMMIT = getShortCommitId()
+    imageName = "${IMAGE_NAME}:${COMMIT}"
+   
+    TASK_DEFINITION_NAME="${appName}"
+  } 
+  //561607169148.dkr.ecr.us-east-1.amazonaws.com/laravel_lms
+  stages {   
+      stage ('Create Image') {
+          steps {
+            script {
+            REPO_NAME = "${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${imageName}"  
+             
+                sh "docker build -t ${imageName} ."
+                sh "docker tag ${imageName} ${REPO_NAME}"
+            }
+          }
+        }
+      stage ('Push Image') {
+          steps {
+            script {
+               REPO_NAME = "${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${imageName}"  
+              sh "\$(aws ecr get-login --no-include-email --region ${AWS_REGION})" 
+              sh "docker push ${REPO_NAME}"
+              sh "docker rmi -f \$(docker images ${IMAGE_NAME} -q)"
+            }
+        }
+      }
+      stage ('Add task definition') {
+        steps {
+          script {
+             REPO_NAME = "${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${imageName}"  
+            sh " sed -i -e 's;%APPNAME%;${appName};g' -e 's;%ECRIMAGEN%;${REPO_NAME};g' aws/task-definition-ec2.json"         
+            sh " sed -i -e 's;%IMAGEPORT%;${IMAGE_PORT};g'  aws/task-definition-ec2.json"     
+            TASK_DEFINITION = sh (returnStdout: true, script:"\
+            aws ecs register-task-definition   --region ${AWS_REGION} --cli-input-json file://aws/task-definition-ec2.json\
+            ")
+          }
+        }
+      }
+      stage ('Update service') {
+        steps {
+          script {
+            TASK_DEFINITION = sh (returnStdout: true, script: "aws ecs update-service --cluster ${CLUSTER_NAME} --desired-count 1 --service ${SERVICE_NAME} --region ${AWS_REGION} --task-definition ${appName}")
+          }
+        }
+      }
+    }
+  post {
+    always {  
+        deleteDir()
+    } 
+  }
+}   
+
+
+def getShortCommitId() {
+   def gitCommit = env.GIT_COMMIT
+   def shortGitCommit = "${gitCommit[0..6]}"
+   return shortGitCommit
+}
+
+

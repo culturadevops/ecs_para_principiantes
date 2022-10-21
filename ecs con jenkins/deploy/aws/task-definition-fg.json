@@ -1,0 +1,43 @@
+{
+    "executionRoleArn": "arn:aws:iam::246768504579:role/ecsTaskExecutionRole",
+    "memory": "1024",
+
+    "cpu": "256",
+    
+    "taskRoleArn": "arn:aws:iam::246768504579:role/ecsTaskExecutionRole",
+    "family":"%ENV%-far-%APPNAME%", 
+    "containerDefinitions": [
+        { 
+            "name": "%ENV%-farcd-%APPNAME%",
+            "image": "%ECRIMAGEN%",
+            "cpu": 256,
+            "memoryReservation": 512,
+          
+            "logConfiguration": {
+                "logDriver": "awslogs",
+            
+                "options": {
+                    "awslogs-group": "/%ENV%/far%APPNAME%",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+           
+            "portMappings": [
+                {
+                    "hostPort": %IMAGEPORT%,
+                    "protocol": "tcp",
+                    "containerPort": %IMAGEPORT%
+                }
+            ],         
+            "environment": [],          
+            "essential": true,          
+            "readonlyRootFilesystem": false
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "volumes": []
+  }

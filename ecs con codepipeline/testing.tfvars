@@ -1,0 +1,5 @@
+name_micro="nombre_del_docker"
+codebuild_role="new_codebuild_role"
+codepipeline_role="new_codepipeline_role"
+dockerhubconnection="mydockerhubconnection"
+codepipeline_artifacts="mycodepipelineartifacts123"

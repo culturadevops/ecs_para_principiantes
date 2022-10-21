@@ -1,0 +1,5 @@
+https://dev.to/thnery/create-an-aws-ecs-cluster-using-terraform-g80
+
+
+https://github.com/mashun4ek/ecs_terraform_workshop
+https://www.youtube.com/watch?v=Ky7sph6fBtM
