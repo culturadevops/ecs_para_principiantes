@@ -6,7 +6,6 @@ resource "aws_codebuild_project" "tf-plan" {
   artifacts {
     type = "CODEPIPELINE"
   }
-
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:4.0"
