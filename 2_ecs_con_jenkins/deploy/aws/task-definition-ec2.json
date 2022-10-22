@@ -1,19 +1,23 @@
 {
     "executionRoleArn": "arn:aws:iam::561607169148:role/ecsTaskExecutionRole",
     "memory": "512",
+
     "cpu": "256",
+    
     "taskRoleArn": "arn:aws:iam::561607169148:role/ecsTaskExecutionRole",
-    "family":"mi_app_por_cli", 
+    "family":"%APPNAME%", 
     "containerDefinitions": [
         { 
-            "name": "mi_app_por_cli",
-            "image": "nginx:latest",
+            "name": "%APPNAME%",
+            "image": "%ECRIMAGEN%",
             "cpu": 256,
             "memoryReservation": 512,
+          
             "logConfiguration": {
                 "logDriver": "awslogs",
+            
                 "options": {
-                    "awslogs-group": "mi_app_por_cli",
+                    "awslogs-group": "%APPNAME%",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
@@ -21,9 +25,9 @@
            
             "portMappings": [
                 {
-                    "hostPort": 81,
+                    "hostPort": %IMAGEPORT%,
                     "protocol": "tcp",
-                    "containerPort": 81
+                    "containerPort": %IMAGEPORT%
                 }
             ],         
             "environment": [],          
@@ -31,7 +35,9 @@
             "readonlyRootFilesystem": false
         }
     ],
-    "requiresCompatibilities": [ "EC2" ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
     "networkMode": "host",
     "volumes": []
   }

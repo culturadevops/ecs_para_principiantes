@@ -23,10 +23,10 @@ updateService:
 
 
 createRole:
-	aws iam create-role --role-name ecsTaskExecutionRole \
+	aws iam create-role --role-name ecsTaskExecutionRole3 \
     --assume-role-policy-document file://ecs-tasks-trust-policy.json
 
-	aws iam attach-role-policy --role-name ecsTaskExecutionRole \
+	aws iam attach-role-policy --role-name ecsTaskExecutionRole3 \
     --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
 
 
