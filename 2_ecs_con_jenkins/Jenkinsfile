@@ -49,7 +49,7 @@ pipeline {
             sh " sed -i -e 's;%APPNAME%;${appName};g' -e 's;%ECRIMAGEN%;${REPO_NAME};g' deploy/task-definition-ec2.json"         
             sh " sed -i -e 's;%IMAGEPORT%;${IMAGE_PORT};g'  deploy/task-definition-ec2.json"     
             TASK_DEFINITION = sh (returnStdout: true, script:"\
-            aws ecs register-task-definition   --region ${AWS_REGION} --cli-input-json file://deploy/task-definition-ec2.json
+            aws ecs register-task-definition   --region ${AWS_REGION} --cli-input-json file://deploy/task-definition-ec2.json\
             ")
           }
         }
