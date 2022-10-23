@@ -17,27 +17,15 @@ resource "aws_codebuild_project" "tf-plan" {
         value = aws_ecr_repository.microservicio.repository_url
     }
     environment_variable {
-        type = "PLAINTEXT"
-        name = "APP_NAME"
-        value = var.name_micro
+        type = "SECRETS_MANAGER"
+        name = "DOCKERHUB_USER"
+        value = "${aws_secretsmanager_secret.dockerhubconnection.arn}:Username"
     }
     environment_variable {
-        type = "PLAINTEXT"
-        name = "IMAGE_PORT"
-        value = var.app_port
-    }   
-    environment_variable {
-        type = "PLAINTEXT"
-        name = "CLUSTER_NAME"
-        value = var.cluster_name
-    } 
-        environment_variable {
-        type = "PLAINTEXT"
-        name = "SERVICE_NAME"
-        value = var.service_name
-    } 
-           
-           
+        type = "SECRETS_MANAGER"
+        name = "DOCKERHUB_PASS"
+        value = "${aws_secretsmanager_secret.dockerhubconnection.arn}:Password"
+    }
  }
  source {
      type   = "CODEPIPELINE"
@@ -54,25 +42,22 @@ resource "aws_codepipeline" "pipeline" {
         type="S3"
         location = aws_s3_bucket.codepipeline_artifacts.id
     }
-  stage {
-    name = "Source"
-    action {
-      name     = "Source"
-      category = "Source"
-      owner    = "AWS"
-      provider = "CodeStarSourceConnection"
-      version  = "1"
-      output_artifacts = [
-        "SourceArtifact",
-      ]
-      configuration = {
-        FullRepositoryId     = var.app_repo
-        BranchName           = "master"
-        ConnectionArn        = aws_codestarconnections_connection.example.arn
-        OutputArtifactFormat = "CODE_ZIP"
-      }
+   stage {
+        name = "Source"
+        action{
+            name = "Source"
+            category = "Source"
+            owner = "AWS"
+            provider = "CodeCommit"
+            version = "1"
+            output_artifacts = ["code"]
+            configuration = {
+                RepositoryName = "dockerfile-hub"
+                BranchName     = "master"
+                OutputArtifactFormat = "CODE_ZIP"
+            }
+        }
     }
-  }
 
     stage {
         name ="build"
@@ -82,7 +67,7 @@ resource "aws_codepipeline" "pipeline" {
             provider = "CodeBuild"
             version = "1"
             owner = "AWS"
-            input_artifacts = ["SourceArtifact"]
+            input_artifacts = ["code"]
             configuration = {
                 ProjectName = "${var.name_micro}-build-project"
             }

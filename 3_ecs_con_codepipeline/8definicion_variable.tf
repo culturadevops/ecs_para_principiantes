@@ -10,10 +10,18 @@ variable "codepipeline_role" {
   type=string
 }
 
-variable "dockerhubconnection" {
+variable "codepipeline_artifacts" {
   type=string
 }
-
-variable "codepipeline_artifacts" {
+variable "app_repo" {
+  type=string
+}
+variable "app_port" {
+  type=string
+}
+variable "cluster_name" {
+  type=string
+}
+variable "service_name" {
   type=string
 }
