@@ -1,14 +1,14 @@
-FROM jenkins/jenkins:2.332.3-lts
+FROM jenkins/jenkins:lts
  #https://updates.jenkins.io/download/plugins/
  #docker build -t jenkins .
  #docker run  -p "80:8080" jenkins
 USER root
 #si sabes trabajar con los plugin usa el comando siguiente
 #RUN /usr/local/bin/install-plugins.sh \  
-#   docker-workflow:1.26 \ 
- #  dashboard-view:2.9.10 \  
- # pipeline-stage-view:2.4 \  
-  # parameterized-trigger:2.32 \  
+#   docker-workflow:1.26
+#   dashboard-view:2.9.10 \  
+#   pipeline-stage-view:2.4 \  
+#   parameterized-trigger:2.32 \  
 #   bitbucket:1.1.5 \  
 #   git:3.0.5 \  
 #   github:1.26.0 \
@@ -20,20 +20,10 @@ USER root
 
 RUN apt-get update -qq \
     && apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common 
-
-#RUN apt install maven -y
+RUN apt install maven -y
 RUN apt install awscli -y
 RUN apt-get install python3-pip -y
 RUN pip3 install --upgrade awscli
-
-
-#RUN apt-get install -y gnupg
-#RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-#RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-#RUN apt-get update && apt-get install terraform
-    
-
-
 RUN apt-get install apt-transport-https -yq \
  ca-certificates \
  curl \
@@ -44,4 +34,5 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
     && sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" \
     && sudo apt-get update \
     && sudo apt-get install docker-ce=18.03.1~ce-0~ubuntu -yq
+
 RUN usermod -aG docker jenkins
