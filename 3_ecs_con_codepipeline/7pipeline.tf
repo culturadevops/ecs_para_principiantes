@@ -41,7 +41,7 @@ resource "aws_codebuild_project" "tf-plan" {
  }
  source {
      type   = "CODEPIPELINE"
-     buildspec = "buildspec.yml" 
+     buildspec = "3_ecs_con_codepipeline/buildspec/buildspec.yml" 
  }
 }
 
