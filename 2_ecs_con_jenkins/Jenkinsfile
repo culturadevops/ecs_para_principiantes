@@ -1,8 +1,4 @@
-import groovy.json.JsonSlurperClassic
-@NonCPS
-def jsonParse(def json) {
-    new groovy.json.JsonSlurperClassic().parseText(json)
-}
+
 pipeline {
   agent  any 
   environment {
@@ -14,7 +10,6 @@ pipeline {
     SERVICE_NAME = "weblms"
     IMAGE_PORT= "80"
     COMMIT = getShortCommitId()
-    imageName = "${IMAGE_NAME}:${COMMIT}"
    
     TASK_DEFINITION_NAME="${appName}"
   } 
