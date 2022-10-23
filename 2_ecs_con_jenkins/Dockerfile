@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:lts
  #https://updates.jenkins.io/download/plugins/
  #docker build -t jenkins .
- #docker run  -p "80:8080" jenkins
+ #docker run  -dp "80:8080" -v /var/run/docker.sock:/var/run/docker.sock --restart=always jenkins 
 USER root
 #si sabes trabajar con los plugin usa el comando siguiente
 #RUN /usr/local/bin/install-plugins.sh \  

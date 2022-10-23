@@ -34,8 +34,9 @@ pipeline {
       stage ('Push Image') {
           steps {
             script {
+              
                REPO_NAME = "${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${imageName}"  
-              sh "\$(aws ecr get-login --no-include-email --region ${AWS_REGION})" 
+              sh "\$(aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com)" 
               sh "docker push ${REPO_NAME}"
               sh "docker rmi -f \$(docker images ${IMAGE_NAME} -q)"
             }
