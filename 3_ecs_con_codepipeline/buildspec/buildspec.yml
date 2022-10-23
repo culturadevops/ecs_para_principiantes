@@ -17,4 +17,4 @@ phases:
       - sed -i -e "s;%IMAGEPORT%;${IMAGE_PORT};g"  3_ecs_con_codepipeline/deploy/task-definition-ec2.json
       - echo 3_ecs_con_codepipeline/deploy/task-definition-ec2.json
       - aws ecs register-task-definition --region $AWS_DEFAULT_REGION --cli-input-json file://3_ecs_con_codepipeline/deploy/task-definition-ec2.json 
-      - aws ecs update-service --cluster $CLUSTER_NAME --desired-count 1 --service $SERVICE_NAME --region $AWS_DEFAULT_REGION --task-definition $APP_NAME
+      - aws ecs create-service --cluster $CLUSTER_NAME --desired-count 1  --service-name  $SERVICE_NAME --region $AWS_DEFAULT_REGION --task-definition $APP_NAME
