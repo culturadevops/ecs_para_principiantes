@@ -7,6 +7,9 @@ apply:
 	terraform apply -var-file="testing.tfvars"
 detroy:
 	terraform destroy  -var-file="testing.tfvars"
+
+
+	
 docker_init:
 	docker run -it -v ${ruta}:/tmp  \
 	-e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}  \
