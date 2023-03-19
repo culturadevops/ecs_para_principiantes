@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - pwd
+      - ls
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_DIR
+  build:
+    commands:
+      - docker build -t $ECR_DIR:latest .
+      - docker tag $ECR_DIR:latest $ECR_DIR:latest   
+      - docker push $ECR_DIR:latest
+  post_build:
+    commands:
+      - sed -i -e "s;%APPNAME%;${APP_NAME};g" -e "s;%ECRIMAGEN%;${ECR_DIR};g" 3_ecs_con_codepipeline/deploy/task-definition-ec2.json
+      - sed -i -e "s;%IMAGEPORT%;${IMAGE_PORT};g"  3_ecs_con_codepipeline/deploy/task-definition-ec2.json
+      - aws ecs register-task-definition --region $AWS_DEFAULT_REGION --cli-input-json file://3_ecs_con_codepipeline/deploy/task-definition-ec2.json 
+      - aws ecs create-service --cluster $CLUSTER_NAME --desired-count 1  --service-name  $SERVICE_NAME --region $AWS_DEFAULT_REGION --task-definition $APP_NAME
